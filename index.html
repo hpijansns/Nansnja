@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>National Electronic Payment Portal | Government of India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #f1f5f9; }
+        .hindi-font { font-family: 'Tiro Devanagari Hindi', serif; }
+        .tricolor-bar { height: 4px; background: linear-gradient(to right, #FF671F 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #046A38 66.66%); }
+        .portal-card { background: #ffffff; border-top: 4px solid #1e3a8a; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08); }
+        .scanner-line { width: 100%; height: 2px; background: linear-gradient(to right, transparent, #046A38, #FF671F, transparent); position: absolute; top: 0; left: 0; animation: scan 2.5s infinite ease-in-out; z-index: 10; }
+        @keyframes scan { 0% { top: 0%; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        .order-summary-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, opacity 0.2s ease; opacity: 0; }
+        .order-summary-content.open { max-height: 200px; opacity: 1; }
+        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
+        .marquee-content { display: inline-block; animation: marquee 16s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-16">
+
+    <div class="tricolor-bar"></div>
+
+    <header class="bg-[#0f172a] text-white text-[11px] py-1.5 px-4">
+        <div class="max-w-xl mx-auto flex justify-between items-center tracking-wide">
+            <div class="flex items-center gap-2">
+                <span class="font-semibold hindi-font text-[#FF9933]">भारत सरकार</span>
+                <span class="text-slate-400">|</span>
+                <span class="text-slate-200 font-medium">Government of India</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="bg-white border-b border-slate-200 shadow-sm py-3 px-4">
+        <div class="max-w-xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-slate-50 border border-slate-200 rounded-lg p-1.5 flex items-center justify-center shrink-0">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <h1 class="text-xs font-bold text-slate-900 uppercase tracking-tight flex items-center gap-1">
+                        <span id="brand-title">SecurePay Gateway</span>
+                        <i class="fas fa-check-circle text-emerald-600 text-xs"></i>
+                    </h1>
+                    <p class="text-[10px] text-slate-500 font-medium">राष्ट्रीय एकीकृत भुगतान प्रणाली</p>
+                </div>
+            </div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" class="h-6 object-contain">
+        </div>
+    </div>
+
+    <main class="max-w-md mx-auto px-4 mt-5">
+        <div class="portal-card rounded-xl border border-slate-200 overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-200 p-5 text-center relative">
+                <span class="inline-block bg-blue-100 text-blue-900 border border-blue-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1">
+                    निर्धारित भुगतान / Amount Payable
+                </span>
+                <div class="text-4xl font-extrabold text-slate-900 tracking-tight font-mono final_paid_price my-1">₹...</div>
+                <div class="text-[11px] text-slate-500 font-mono flex items-center justify-center gap-1.5">
+                    <span>संदर्भ सं. / Ref No:</span>
+                    <strong class="text-slate-800" id="random-ref">...</strong>
+                </div>
+            </div>
+
+            <div class="p-5 text-center">
+                <div class="inline-block p-2 bg-white rounded-xl border-2 border-slate-300 shadow-sm relative">
+                    <div class="relative w-44 h-44 flex items-center justify-center bg-slate-50 rounded-lg overflow-hidden">
+                        <img id="qr-code-img" alt="Scan QR" class="w-full h-full object-contain z-10" src="">
+                        <div class="scanner-line"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center justify-between gap-2 max-w-[320px] mx-auto">
+                    <div class="text-left overflow-hidden">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">UPI ID</span>
+                        <span id="upi-text" class="text-xs font-bold text-slate-800 truncate block font-mono">aarush-pvt-ltd@ybl</span>
+                    </div>
+                    <input type="hidden" id="upiID" value="aarush-pvt-ltd@ybl">
+                    <button type="button" onclick="window.copyUpi(event)" class="bg-[#1e3a8a] text-white text-xs py-1.5 px-3 rounded">COPY</button>
+                </div>
+
+                <div id="status-box" class="mt-5 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-center gap-2.5 text-xs text-blue-900 font-medium">
+                    <i id="status-icon" class="fas fa-spinner fa-spin text-blue-700 text-sm"></i>
+                    <span id="status-text">भुगतान की प्रतीक्षा है... लाइव सत्यापन चालू है।</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentOrderId = "";
+        let pollInterval = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const finalPrice = parseFloat(urlParams.get('amount')) || 1.00;
+            const dynamicBrand = urlParams.get('brand') || 'Aarush Pvt Ltd';
+            const testUpiId = "aarush-pvt-ltd@ybl";
+            currentOrderId = urlParams.get('orderId') || "ORD" + Math.floor(100000 + Math.random() * 900000);
+            
+            document.getElementById('brand-title').innerText = dynamicBrand;
+            document.getElementById('random-ref').innerText = currentOrderId;
+            document.querySelectorAll('.final_paid_price').forEach(el => el.innerText = '₹' + finalPrice.toFixed(2));
+
+            const upiString = `upi://pay?pa=${testUpiId}&pn=${encodeURIComponent(dynamicBrand)}&am=${finalPrice.toFixed(2)}&cu=INR&tn=${currentOrderId}`;
+            
+            if (typeof QRious !== 'undefined') {
+                const qr = new QRious({ value: upiString, size: 300, level: 'H' });
+                document.getElementById('qr-code-img').src = qr.toDataURL('image/png');
+            }
+
+            // Start auto checking payment status from backend server
+            startCheckingPayment();
+        });
+
+        function startCheckingPayment() {
+            pollInterval = setInterval(() => {
+                fetch(`http://localhost:3000/api/check-status?orderId=${currentOrderId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success && data.status === "SUCCESS") {
+                            clearInterval(pollInterval);
+                            const box = document.getElementById('status-box');
+                            box.className = "mt-5 p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-center gap-2.5 text-xs text-emerald-900 font-semibold";
+                            document.getElementById('status-icon').className = "fas fa-check-circle text-emerald-700 text-base";
+                            document.getElementById('status-text').innerHTML = "भुगतान सफल! (Payment Confirmed) ✅";
+                        }
+                    })
+                    .catch(err => console.log("Waiting for server..."));
+            }, 3000); // Har 3 second mein check karega
+        }
+
+        window.copyUpi = function(event) {
+            navigator.clipboard.writeText("aarush-pvt-ltd@ybl");
+            alert("UPI ID Copied!");
+        };
+    </script>
+</body>
+</html>
