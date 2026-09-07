@@ -185,7 +185,7 @@
                     </a>
                 </div>
 
-                <!-- Auto-Verify Status Box -->
+                <!-- Auto-Verify Status Box Connected to Live Render Backend -->
                 <div id="status-box" class="mt-5 p-2.5 bg-blue-50 border border-blue-100 rounded-lg flex items-center gap-2.5 text-xs text-blue-900 font-medium">
                     <i id="status-icon" class="fas fa-spinner fa-spin text-blue-700 text-sm"></i>
                     <span id="status-text">भुगतान सत्यापन की प्रतीक्षा है। लाइव ट्रैकिंग चालू है...</span>
@@ -282,7 +282,7 @@
                 if(upiTextEl) upiTextEl.innerText = testUpiId;
                 if(upiInputEl) upiInputEl.value = testUpiId;
 
-                // Format Standard UPI URI (Ensures auto-fill in PhonePe, Paytm, GPay)
+                // Format Standard UPI URI
                 const upiString = `upi://pay?pa=${encodeURIComponent(testUpiId)}&pn=${encodeURIComponent(dynamicBrand)}&tn=${encodeURIComponent(transactionNote)}&am=${finalPrice.toFixed(2)}&cu=INR`;
                 
                 // QRious Generator with Automatic API Fallback
@@ -298,11 +298,11 @@
                     if(qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodedUpi}`;
                 }
 
-                // Standard Intent Direct App Links (Auto-fills amount & UPI ID)
+                // Standard Intent Links for Mobile Apps
                 if(phonepeLink) phonepeLink.href = upiString;
                 if(paytmLink) paytmLink.href = upiString;
 
-                // Start Live Payment Polling
+                // Start Live Polling with Render Backend Server
                 startPaymentPolling();
 
             } catch(error) {
@@ -310,22 +310,29 @@
             }
         });
 
-        // Polling function to check status automatically
+        // Live Status Polling against live Render Server
         function startPaymentPolling() {
             pollInterval = setInterval(() => {
-                // Checks local storage or status tracker
-                const status = localStorage.getItem("txn_" + currentOrderId);
-                if (status === "SUCCESS") {
-                    clearInterval(pollInterval);
-                    const box = document.getElementById('status-box');
-                    const icon = document.getElementById('status-icon');
-                    const text = document.getElementById('status-text');
+                fetch(`https://nansnja.onrender.com/api/check-status?orderId=${currentOrderId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success && data.status === "SUCCESS") {
+                            clearInterval(pollInterval);
+                            const box = document.getElementById('status-box');
+                            const icon = document.getElementById('status-icon');
+                            const text = document.getElementById('status-text');
 
-                    box.className = "mt-5 p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center gap-2.5 text-xs text-emerald-900 font-semibold";
-                    icon.className = "fas fa-check-circle text-emerald-700 text-base";
-                    text.innerHTML = "भुगतान सफल! (Payment Confirmed & Successful) ✅<br><span class='text-[10px] text-slate-500'>Order verified successfully.</span>";
-                }
-            }, 3000); // Checks every 3 seconds
+                            box.className = "mt-5 p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center gap-2.5 text-xs text-emerald-900 font-semibold";
+                            icon.className = "fas fa-check-circle text-emerald-700 text-base";
+                            text.innerHTML = "भुगतान सफल! (Payment Confirmed & Successful) ✅<br><span class='text-[10px] text-slate-500'>Order verified successfully.</span>";
+                            
+                            if (typeof fbq === 'function') {
+                                fbq('track', 'Purchase', { currency: "INR", value: parseFloat(document.querySelector('.final_paid_price').innerText.replace('₹', '')) || 0 });
+                            }
+                        }
+                    })
+                    .catch(err => console.log("Checking payment status..."));
+            }, 3000);
         }
 
         // Copy UPI Button Action
